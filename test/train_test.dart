@@ -48,7 +48,7 @@ class MockReservationService extends Mock implements ReservationService {
 
 main() {
   Endpoint sut;
-  var reservationService;
+  ReservationService reservationService;
   final int trainId = 17890;
   final List<String> seats = ["1A", "1B"];
 
