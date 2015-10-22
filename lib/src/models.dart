@@ -22,3 +22,15 @@ class Reservation {
     return map;
   }
 }
+
+class Booking {
+  String wagon;
+  List<int> seats;
+}
+
+class Train {
+  List<Wagon> wagons;
+}
+
+class Wagon {
+}
