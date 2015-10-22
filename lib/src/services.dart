@@ -3,6 +3,6 @@ import 'models.dart';
 
 class ReservationService {
   Option<Reservation> reserveSeats(int trainId, int amountOfSeats) {
-    return new Some(new Reservation(1, 1, []));
+    return new Some(new Reservation.dummy());
   }
 }

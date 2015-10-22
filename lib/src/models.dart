@@ -2,7 +2,7 @@ class Reservation {
   final int trainId;
   final int coachId;
   final int bookingReference;
-  final List<String> seats;
+  final List<int> seats;
 
   Reservation(this.trainId, this.bookingReference, this.coachId, this.seats);
 

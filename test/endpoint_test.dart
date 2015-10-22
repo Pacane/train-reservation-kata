@@ -14,6 +14,7 @@ main() {
   final int coachId = 4324;
   final int amountOfSeats = 5;
   final int bookingReference = 12345;
+  final List<int> seats = [11, 12];
 
   setUp(() {
     reservationService = new MockReservationService();
@@ -37,14 +38,14 @@ main() {
     });
 
     test("returns 201 when reservation was created", () async {
-      var reservation = new Reservation(trainId, bookingReference, coachId, []);
+      var reservation = new Reservation(trainId, bookingReference, coachId, seats);
       when(reservationService.reserveSeats(trainId, amountOfSeats))
           .thenReturn(new Some(reservation));
       Map expectedResult = {
         'trainId': trainId,
         'bookingReference': bookingReference,
         'coachId': coachId,
-        'seats': []
+        'seats': seats
       };
 
       var result = sut.reserveSeats(trainId, amountOfSeats);
