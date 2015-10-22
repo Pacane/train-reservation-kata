@@ -37,12 +37,14 @@ main() {
     });
 
     test("returns 201 when reservation was created", () async {
-      var reservation = new Reservation.dummy(trainId, bookingReference, []);
+      var reservation = new Reservation(trainId, bookingReference, coachId, []);
       when(reservationService.reserveSeats(trainId, amountOfSeats))
           .thenReturn(new Some(reservation));
       Map expectedResult = {
         'trainId': trainId,
-        'bookingReference': bookingReference
+        'bookingReference': bookingReference,
+        'coachId': coachId,
+        'seats': []
       };
 
       var result = sut.reserveSeats(trainId, amountOfSeats);
