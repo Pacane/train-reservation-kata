@@ -11,25 +11,30 @@ main() {
   ReservationService sut;
   SeatsPicker seatsPicker = new MockSeatsPicker();
   TrainRepository trainRepository = new MockTrainRepository();
+  Booking booking = new Booking();
 
   setUp(() {
     sut = new ReservationService(seatsPicker, trainRepository);
   });
 
-  test("reservationService delegates to seatsPicker", () {
-    when(trainRepository.getTrain(trainId)).thenReturn(new Some(train));
+  group("reserveSeats", () {
+    test("delegates to seatsPicker", () {
+      when(trainRepository.getTrain(trainId)).thenReturn(new Some(train));
+      when(seatsPicker.pickSeats(train, amountOfSeats)).thenReturn(booking);
 
-    sut.reserveSeats(trainId, amountOfSeats);
+      var result = sut.reserveSeats(trainId, amountOfSeats);
 
-    verify(seatsPicker.pickSeats(train, amountOfSeats));
-  });
+      expect(result, new Some(booking));
+    });
 
-  test("returns None when train is not found", () {
-    when(trainRepository.getTrain(trainId)).thenReturn(new None());
+    test("returns None when train is not found", () {
+      when(trainRepository.getTrain(trainId)).thenReturn(new None());
 
-    Option<Reservation> reservation = sut.reserveSeats(trainId, amountOfSeats);
+      Option<Reservation> reservation =
+          sut.reserveSeats(trainId, amountOfSeats);
 
-    expect(reservation is None, isTrue);
+      expect(reservation is None, isTrue);
+    });
   });
 }
 

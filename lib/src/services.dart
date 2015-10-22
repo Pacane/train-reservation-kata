@@ -15,9 +15,9 @@ class ReservationService {
       return new None();
     }
 
-    seatsPicker.pickSeats(train.get(), amountOfSeats);
+    Booking booking = seatsPicker.pickSeats(train.get(), amountOfSeats);
 
-    return new Some(new Reservation.dummy());
+    return new Some(booking);
   }
 }
 
