@@ -9,16 +9,20 @@ class ReservationService {
   ReservationService(this.seatsPicker, this.trainRepository);
 
   Option<Reservation> reserveSeats(int trainId, int amountOfSeats) {
-    Train train = trainRepository.getTrain(trainId);
+    Option<Train> train = trainRepository.getTrain(trainId);
 
-    seatsPicker.pickSeats(train, amountOfSeats);
+    if(train is None) {
+      return new None();
+    }
+
+    seatsPicker.pickSeats(train.get(), amountOfSeats);
 
     return new Some(new Reservation.dummy());
   }
 }
 
 class TrainRepository {
-  Train getTrain(int trainId) {
-    return new Train();
+  Option<Train> getTrain(int trainId) {
+    return new Some(new Train());
   }
 }

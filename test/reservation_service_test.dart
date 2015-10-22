@@ -17,11 +17,19 @@ main() {
   });
 
   test("reservationService delegates to seatsPicker", () {
-    when(trainRepository.getTrain(trainId)).thenReturn(train);
+    when(trainRepository.getTrain(trainId)).thenReturn(new Some(train));
 
     sut.reserveSeats(trainId, amountOfSeats);
 
     verify(seatsPicker.pickSeats(train, amountOfSeats));
+  });
+
+  test("returns None when train is not found", () {
+    when(trainRepository.getTrain(trainId)).thenReturn(new None());
+
+    Option<Reservation> reservation = sut.reserveSeats(trainId, amountOfSeats);
+
+    expect(reservation is None, isTrue);
   });
 }
 
