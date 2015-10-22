@@ -9,9 +9,9 @@ class Endpoint {
 
   Endpoint(this.reservationService);
 
-  shelf.Response reserveSeats(int trainId, List<String> seats) {
+  shelf.Response reserveSeats(int trainId, int amountOfSeats) {
     Option<Reservation> reservation =
-        reservationService.reserveSeats(trainId, seats);
+        reservationService.reserveSeats(trainId, amountOfSeats);
     if (reservation is Some<Reservation>) {
       return new shelf.Response(201, body: JSON.encode(reservation.get()));
     } else {

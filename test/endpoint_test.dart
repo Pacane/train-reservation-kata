@@ -11,7 +11,8 @@ main() {
   Endpoint sut;
   ReservationService reservationService;
   final int trainId = 17890;
-  final List<String> seats = ["1A", "1B"];
+  final int coachId = 4324;
+  final int amountOfSeats = 5;
   final int bookingReference = 12345;
 
   setUp(() {
@@ -21,30 +22,30 @@ main() {
 
   group("reserveSeats", () {
     test("delegates to ReservationService", () {
-      sut.reserveSeats(trainId, seats);
+      sut.reserveSeats(trainId, amountOfSeats);
 
-      verify(reservationService.reserveSeats(trainId, seats));
+      verify(reservationService.reserveSeats(trainId, amountOfSeats));
     });
 
     test("returns 409 when reservation was not possible", () {
-      when(reservationService.reserveSeats(trainId, seats))
+      when(reservationService.reserveSeats(trainId, amountOfSeats))
           .thenReturn(new None());
 
-      var result = sut.reserveSeats(trainId, seats);
+      var result = sut.reserveSeats(trainId, amountOfSeats);
 
       expect(result.statusCode, 409);
     });
 
     test("returns 201 when reservation was created", () async {
-      var reservation = new Reservation(trainId, bookingReference, seats);
-      when(reservationService.reserveSeats(trainId, seats))
+      var reservation = new Reservation.dummy(trainId, bookingReference, []);
+      when(reservationService.reserveSeats(trainId, amountOfSeats))
           .thenReturn(new Some(reservation));
       Map expectedResult = {
         'trainId': trainId,
         'bookingReference': bookingReference
       };
 
-      var result = sut.reserveSeats(trainId, seats);
+      var result = sut.reserveSeats(trainId, amountOfSeats);
 
       var decodedResponse = JSON.decode(await result.readAsString());
       expect(result.statusCode, 201);
